@@ -18,7 +18,7 @@ client = genai.Client()
 response = client.models.generate_content(
 #model="gemini-flash-latest",  # актуальная быстрая модель, но проходит не всегда
 model="models/gemini-3.6-flash",
-contents="столица Франции?"
+contents="столица Португалии?"
 )
 
 # Вывод ответа
