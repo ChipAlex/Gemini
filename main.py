@@ -15,10 +15,15 @@ client = genai.Client()
 
 
 # Отправка запроса
+"""Работают: models/gemini-3.6-flash, 
+    models/gemini-3.8-flash,
+    gemini-flash-latest актуальная быстрая модель, но проходит не всегда
+"""
 response = client.models.generate_content(
 #model="gemini-flash-latest",  # актуальная быстрая модель, но проходит не всегда
+
 model="models/gemini-3.6-flash",
-contents="столица Португалии?"
+contents="Действуй как автор контента. Напиши вступление на 150 слов для поста в блоге о преимуществах утренних прогулок. Используй теплый, разговорный тон"
 )
 
 # Вывод ответа
