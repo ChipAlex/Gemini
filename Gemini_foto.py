@@ -21,7 +21,7 @@ uploaded_file = client.files.upload(file="foto/abby.jpg")
 
 # 3. Отправьте изображение и текстовый запрос модели
 response = client.models.generate_content(
-    model="gemini-3.6-flash",  # или ваша модель, например gemini-3.6-flash
+    model="gemini-3.6-flash",  # или ваша модель, например gemini-3.8-flash
     contents=[
         uploaded_file,
         "Что изображено на этой фотографии? Опиши кратко.",
