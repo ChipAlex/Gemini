@@ -12,7 +12,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    # Бесплатная модель thinkingmachines на OpenRouter
+    # Бесплатная модель thinkingmachines на OpenRouter не работает
     model="thinkingmachines/inkling-small:free",
     messages=[{"role": "user", "content": "Привет! Объясни, что такое API."}]
 )
