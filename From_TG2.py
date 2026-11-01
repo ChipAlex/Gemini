@@ -18,7 +18,7 @@ load_dotenv()  # загружает переменные из .env
 TELEGRAM_TOKEN=os.getenv("TELEGRAM_TOKEN")
 
 # Бесплатная модель (роутер сам выберет доступную free-модель)
-# Для Gemini 3.8 Flash замените на "google/gemini-3.8-flash"
+
 MODEL = "openrouter/free"
 
 MODEL = "openrouter/free"
