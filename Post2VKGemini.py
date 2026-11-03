@@ -5,6 +5,8 @@ import requests
 load_dotenv()  # загружает переменные из .env
 
 # --- Настройки ---
+#    url = "https://vk.com/lip_faberlic"
+
 TOKEN=os.environ.get("VK_GROUP_TOKEN")
 GROUP_ID = int(os.environ.get("VK_GROUP_ID", "0"))
 API_VERSION = "5.199"          # Актуальная версия API
@@ -17,36 +19,34 @@ if GROUP_ID == 0:
 
 
 def post_to_wall(message: str, attachments: str = None):
-    """Публикует запись на стену сообщества."""
-    url = "https://vk.com/lip_faberlic"
+    """Публикует запись на стену сообщества, передавая токен прямо в URL."""
+    clean_token = TOKEN.strip()
+
+    # ИСПРАВЛЕНО: Токен и версия API намертво вшиваются прямо в строку URL
+    url = f"https://vk.com/lip_faberlic{clean_token}&v={API_VERSION}"
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     }
 
-    # Все параметры для VK API передаем строго в Query String
-    query_params = {
-        "access_token": TOKEN,
-        "v": API_VERSION,
-        "owner_id": -GROUP_ID,  # Минус обязателен для групп
+    # Данные поста передаются в теле POST-запроса
+    payload = {
+        "owner_id": -GROUP_ID,
         "from_group": 1,
         "message": message,
     }
 
     if attachments:
-        query_params["attachments"] = attachments
+        payload["attachments"] = attachments
 
-    # ИСПРАВЛЕНО: Вместо data=params используем params=query_params
-    res = requests.post(url, params=query_params, headers=headers)
-
-    print(f"Статус-код: {res.status_code}")
-    print(f"Тип контента: {res.headers.get('Content-Type')}")
+    # Отправляем POST запрос. Параметры авторизации в URL, данные - в data
+    res = requests.post(url, data=payload, headers=headers)
 
     try:
         response = res.json()
     except requests.exceptions.JSONDecodeError:
-        print("!!! СЕРВЕР ВСЕ ЕЩЕ ВЕРНУЛ НЕ JSON !!!")
-        print(res.text[:500])
+        print("!!! КРИТИЧЕСКАЯ ОШИБКА: VK всё ещё сбрасывает запрос в HTML !!!")
+        print(res.text[:300])
         return
 
     if "response" in response:

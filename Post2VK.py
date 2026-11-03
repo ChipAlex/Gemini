@@ -9,7 +9,7 @@ load_dotenv()  # загружает переменные из .env
 
 # --- Настройки ---
 TOKEN=os.environ.get("VK_GROUP_TOKEN")
-GROUP_ID = os.environ.get("VK_GROUP_ID")
+GROUP_ID = -os.environ.get("VK_GROUP_ID")
 #TOKEN = VK_GROUP_TOKEN
 #GROUP_ID = -158296331  # ID вашей группы (обязательно с минусом!)
 POST_TEXT = "Привет, сообщество! Это тестовый пост из P-n."
