@@ -186,31 +186,34 @@ async def get_stuck_leads(hours_threshold: int = 48) -> list:
             for row in rows
         ]
 
-
 async def generate_stuck_leads_csv(leads: list, filename: str = "stuck_leads_report.csv") -> str:
     """
-    Генерирует CSV-файл для удобной выгрузки менеджерам.
-    Кодировка utf-8-sig гарантирует корректное открытие в Excel.
+    Генерирует CSV-файл с оптимизированной структурой для удобного просмотра.
     """
     with open(filename, 'w', newline='', encoding='utf-8-sig') as f:
-        fieldnames = ['Telegram ID', 'Username', 'Имя', 'Ветка', 'Время зависания', 'Ссылка для связи']
+        # Более компактные заголовки
+        fieldnames = ['ID', 'Username', 'Имя', 'Ветка', 'Когда завис', 'Контакт']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
         for lead in leads:
-            tg_link = f"https://t.me/{lead['username']}" if lead['username'] != 'не указан' else 'Нет (искать по ID)'
+            # Формируем короткую ссылку только с username
+            contact = f"@{lead['username']}" if lead['username'] != 'не указан' else f"ID: {lead['user_id']}"
+
+            # Форматируем дату в более компактный вид
+            dt = datetime.fromisoformat(lead['timestamp'])
+            date_compact = dt.strftime("%d.%m %H:%M")
 
             writer.writerow({
-                'Telegram ID': lead['user_id'],
-                'Username': f"@{lead['username']}" if lead['username'] != 'не указан' else 'Не указан',
-                'Имя': lead['full_name'],
+                'ID': lead['user_id'],
+                'Username': f"@{lead['username']}" if lead['username'] != 'не указан' else "-",
+                'Имя': lead['full_name'][:30] + "..." if len(lead['full_name'] or "") > 30 else (
+                            lead['full_name'] or "-"),
                 'Ветка': lead['event_type'],
-                'Время зависания': lead['timestamp'].replace('T', ' '),
-                'Ссылка для связи': tg_link
+                'Когда завис': date_compact,
+                'Контакт': contact
             })
     return filename
-
-
 # ============================================================
 # 🔔 УВЕДОМЛЕНИЯ ЛАРИСЕ
 # ============================================================
