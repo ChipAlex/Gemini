@@ -31,7 +31,7 @@ PDF_FILE_PATH = "foto/test.pdf"
 DB_PATH = "funnel_tasks.db"
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN, timeout=60)
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 router = Router()
@@ -248,7 +248,7 @@ class FaberlicFunnel(StatesGroup):
 
 
 TEXTS = {
-    "welcome_intro": "Здравствуйте! 👋\n\nМеня зовут Лариса, я — Директор Faberlic и владелица двух пунктов выдачи.\n\nНажмите кнопку ниже, чтобы получить гайд и подобрать формат сотрудничества 👇",
+    "welcome_intro": "Здравствуйте! 👋\n\nМеня зовут Шипулина Лариса. Я — Директор Faberlic и владелец двух пунктов выдачи.\n\nНажмите кнопку ниже, чтобы получить гайд и подобрать формат сотрудничества 👇",
     "quiz_question": "Что вам ближе?",
     "quiz_client": "💄 Хочу косметику со скидкой 20%",
     "quiz_business": "💰 Хочу дополнительный заработок",

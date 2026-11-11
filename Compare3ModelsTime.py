@@ -10,11 +10,11 @@ load_dotenv()  # загружает переменные из .env
 
 # 1. Конфигурация провайдеров
 PROVIDERS = {
-    "groq": {
-        "base_url": "https://api.groq.com/openai/v1",
-        "api_key": os.getenv("GROQ_API_KEY"),
-        "model": "openai/gpt-oss-120b",
-    },
+    # "groq": {
+    #     "base_url": "https://api.groq.com/openai/v1",
+    #     "api_key": os.getenv("GROQ_API_KEY"),
+    #     "model": "openai/gpt-oss-120b",
+    # },
     "gemini": {
         "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
         "api_key": os.getenv("GOOGLE_API_KEY"),
@@ -138,7 +138,8 @@ def print_table(results: list):
 
 # 5. Основной сценарий
 if __name__ == "__main__":
-    prompt = "Объясни в одном предложении, что такое четырехугольник"
+    #prompt = "Объясни в одном предложении, что такое четырехугольник"
+    prompt = "Ты опытный аналитик и сетевик в компании Faberlic. Дай топ 5 бестселлеров последних продаж"
 
     results = []
     for name in PROVIDERS:
